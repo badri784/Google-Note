@@ -12,6 +12,15 @@ class Todos extends StateNotifier<List<Model>> {
   void removetodo(String id) {
     state = state.where((item) => item.id != id).toList();
   }
+
+  void editTodo(String id, String body, bool done) {
+    state = state.map((item) {
+      if (item.id == id) {
+        return Model(id: id, body: body, iscompleate: done);
+      }
+      return item;
+    }).toList();
+  }
 }
 
 final todosnotifier = StateNotifierProvider<Todos, List<Model>>((ref) {

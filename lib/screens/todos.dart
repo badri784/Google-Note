@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/model/model.dart';
 import 'package:note_app/provider/todos.dart';
+import 'package:note_app/screens/edit_screen.dart';
 
 class ToDos extends ConsumerStatefulWidget {
   const ToDos({super.key});
@@ -50,7 +51,55 @@ class _ToDosState extends ConsumerState<ToDos> {
               ),
             ),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+              PopupMenuButton<int>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 8,
+                color: Colors.white,
+                onSelected: (value) {
+                  if (value == 0) {
+                    // Edit
+                  } else if (value == 1) {
+                    // Delete
+                  } else if (value == 2) {
+                    // Share
+                  }
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 0,
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit, color: Colors.blue),
+                        SizedBox(width: 8),
+                        Text('Edit'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 1,
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text('Delete'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 2,
+                    child: Row(
+                      children: [
+                        Icon(Icons.share, color: Colors.green),
+                        SizedBox(width: 8),
+                        Text('Share'),
+                      ],
+                    ),
+                  ),
+                ],
+                icon: const Icon(Icons.more_vert),
+              ),
             ],
             actionsPadding: const EdgeInsets.all(12),
             floating: true,
@@ -67,6 +116,13 @@ class _ToDosState extends ConsumerState<ToDos> {
                   padding: const EdgeInsets.all(8.0),
                   child: Card.outlined(
                     child: ListTile(
+                      onLongPress: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => EditScreen(model: item[index]),
+                          ),
+                        );
+                      },
                       title: Text(item[index].body),
                       leading: Checkbox(
                         shape: const CircleBorder(),
@@ -82,18 +138,20 @@ class _ToDosState extends ConsumerState<ToDos> {
                 ),
               );
             }, childCount: item.length),
-          ),
+          ) /*
           if (item.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Center(
+              child: SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+
                 child: Image.asset(
                   'assets/image/notodo.png',
-                  color: Colors.transparent,
-                  colorBlendMode: BlendMode.multiply,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
+            ),*/,
         ],
       ),
     );
@@ -114,7 +172,7 @@ class _ToDosState extends ConsumerState<ToDos> {
     );
   }
 
-  Future<PersistentBottomSheetController> modelsheet() async {
+  modelsheet() async {
     return showBottomSheet(
       showDragHandle: true,
       backgroundColor: Colors.white54,
