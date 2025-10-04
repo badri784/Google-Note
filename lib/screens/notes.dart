@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/screens/note_screen.dart';
 
 class Notes extends StatefulWidget {
   const Notes({super.key});
@@ -28,7 +29,11 @@ class _NotesState extends State<Notes> with TickerProviderStateMixin {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const NoteScreen()));
+          },
           shape: const CircleBorder(),
           backgroundColor: Colors.amber,
           child: const Icon(Icons.add, size: 40, color: Colors.white),
