@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/model/model.dart';
-import 'package:note_app/provider/todos.dart';
+import 'package:note_app/provider/todos_provider.dart';
 import 'package:note_app/screens/edit_screen.dart';
 
 class ToDos extends ConsumerStatefulWidget {

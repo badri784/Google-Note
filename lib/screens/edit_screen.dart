@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:note_app/model/model.dart';
-import 'package:note_app/provider/todos.dart';
+import 'package:note_app/provider/todos_provider.dart';
 
 class EditScreen extends ConsumerStatefulWidget {
   const EditScreen({super.key, required this.model});

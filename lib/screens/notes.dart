@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/screens/note_screen.dart';
+import 'package:note_app/screens/add_note_screen.dart';
+import 'package:note_app/widget/graid_view.dart';
 
 class Notes extends StatefulWidget {
   const Notes({super.key});
@@ -92,8 +93,8 @@ class _NotesState extends State<Notes> with TickerProviderStateMixin {
             parent: AlwaysScrollableScrollPhysics(),
           ),
           children: const [
-            Center(child: Text('Content of Tab 1')),
-            Center(child: Text('Content of Tab 2')),
+            Center(child: Text('Content of Tab 12')),
+            GraidViewWidget(),
             Center(child: Text('Content of Tab 3')),
             Center(child: Text('Content of Tab 4')),
           ],

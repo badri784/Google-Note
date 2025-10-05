@@ -1,26 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:note_app/provider/note_provider.dart';
 
-class NoteScreen extends StatefulWidget {
+class NoteScreen extends ConsumerStatefulWidget {
   const NoteScreen({super.key});
 
   @override
-  State<NoteScreen> createState() => _NoteScreenState();
+  ConsumerState<NoteScreen> createState() => _NoteScreenState();
 }
 
-class _NoteScreenState extends State<NoteScreen> {
-  TextEditingController textController = TextEditingController();
+class _NoteScreenState extends ConsumerState<NoteScreen> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController bodyController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
-    textController.dispose();
+    titleController.dispose();
+    bodyController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    onsave() {
+      final titlecontrol = titleController.text;
+      final bodycontrol = bodyController.text;
+      if (titlecontrol.isEmpty) return;
+      ref.read(noteNotifier.notifier).addnote(bodycontrol, titlecontrol);
+      Navigator.of(context).pop(true);
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: const Text('New Note')),
+      appBar: AppBar(
+        title: const Text('New Note'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(onPressed: onsave, icon: const Icon(Icons.done)),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -35,18 +55,32 @@ class _NoteScreenState extends State<NoteScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                TextField(
+                  controller: titleController,
+                  autocorrect: true,
+                  maxLines: null,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    hintText: 'title :',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                  ),
+                  keyboardType: TextInputType.text,
+                ),
+                const SizedBox(height: 8),
                 Expanded(
                   child: CustomPaint(
                     painter: LinedPaperPainter(),
                     child: GestureDetector(
                       onTap: () {
                         Clipboard.setData(
-                          ClipboardData(text: textController.text),
+                          ClipboardData(text: bodyController.text),
                         );
                       },
                       child: TextField(
                         autofocus: true,
-                        controller: textController,
+                        controller: bodyController,
                         keyboardType: TextInputType.text,
                         maxLines: null,
                         expands: true,
