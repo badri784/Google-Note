@@ -1,22 +1,61 @@
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:note_app/model/model.dart';
+import 'package:path_provider/path_provider.dart' as syspath;
+import 'package:path/path.dart' as path;
+import 'package:sqflite/sqflite.dart' as sql;
+
+Future<sql.Database> opendatabase() async {
+  final dbpath = await sql.getDatabasesPath();
+  final db = sql.openDatabase(
+    path.join(dbpath, 'todos.db'),
+    onCreate: (db, version) => db.execute(
+      'CREATE TABLE user_todos(id TEXT PRIMARY KEY,body TEXT,isdone INTEGER)',
+    ),
+    version: 1,
+  );
+  return db;
+}
 
 class Todos extends StateNotifier<List<Model>> {
   Todos() : super([]);
 
-  void addnewitem(String body, bool iscom) {
-    final item = Model(body: body, iscompleate: iscom);
-    state = [item, ...state];
+  Future<void> loadToDOsFormDataBase() async {
+    final sql.Database db = await opendatabase();
+    final List<Map<String, Object?>> data = await db.query('user_todos');
+    final List<Model> model = data
+        .map(
+          (item) => Model(
+            body: item['body'] as String,
+            isdone: item['isdone'] == 'false',
+          ),
+        )
+        .toList();
+    state = model;
   }
 
-  void removetodo(String id) {
+  addnewitem(String body, bool isdone) async {
+    final newItem = Model(body: body, isdone: isdone);
+    await syspath.getApplicationDocumentsDirectory();
+    final db = await opendatabase();
+    await db.insert('user_todos', {
+      'id': newItem.id,
+      'body': newItem.body,
+      'isdone': newItem.isdone ? 1 : 0,
+    });
+
+    state = [newItem, ...state];
+  }
+
+  removetodo(String id) async {
+    final db = await opendatabase();
+    db.delete('user_todos', where: 'id==?', whereArgs: [id]);
     state = state.where((item) => item.id != id).toList();
   }
 
   void editTodo(String id, String body, bool done) {
     state = state.map((item) {
       if (item.id == id) {
-        return Model(id: id, body: body, iscompleate: done);
+        return Model(id: id, body: body, isdone: done);
       }
       return item;
     }).toList();

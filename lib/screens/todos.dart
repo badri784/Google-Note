@@ -25,6 +25,12 @@ class _ToDosState extends ConsumerState<ToDos> {
   }
 
   DateTime? pickeddate;
+  late Future<void> future;
+  @override
+  void initState() {
+    super.initState();
+    future = ref.read(todosnotifier.notifier).loadToDOsFormDataBase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,35 +113,43 @@ class _ToDosState extends ConsumerState<ToDos> {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return Dismissible(
-                key: Key(item[index].id),
-                onDismissed: (direction) =>
-                    ref.read(todosnotifier.notifier).removetodo(item[index].id),
+              return FutureBuilder(
+                future: future,
+                builder: (context, asyncSnapshot) =>
+                    asyncSnapshot.connectionState == ConnectionState.waiting
+                    ? const CircularProgressIndicator()
+                    : Dismissible(
+                        key: Key(item[index].id),
+                        onDismissed: (direction) => ref
+                            .read(todosnotifier.notifier)
+                            .removetodo(item[index].id),
 
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card.outlined(
-                    child: ListTile(
-                      onLongPress: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => EditScreen(model: item[index]),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card.outlined(
+                            child: ListTile(
+                              onLongPress: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        EditScreen(model: item[index]),
+                                  ),
+                                );
+                              },
+                              title: Text(item[index].body),
+                              leading: Checkbox(
+                                shape: const CircleBorder(),
+                                value: iscompl,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    iscompl = value!;
+                                  });
+                                },
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                      title: Text(item[index].body),
-                      leading: Checkbox(
-                        shape: const CircleBorder(),
-                        value: iscompl,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            iscompl = value!;
-                          });
-                        },
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               );
             }, childCount: item.length),
           ) /*

@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:note_app/model/note_model.dart';
 import 'package:note_app/provider/note_provider.dart';
+import 'package:note_app/screens/edit_Folder/add_note_screen.dart';
 
-class NoteScreen extends ConsumerStatefulWidget {
-  const NoteScreen({super.key});
+class EditNoteScreen extends ConsumerStatefulWidget {
+  const EditNoteScreen({required this.note, super.key});
+  final NoteModel note;
 
   @override
-  ConsumerState<NoteScreen> createState() => _NoteScreenState();
+  ConsumerState<EditNoteScreen> createState() => _EditNoteScreenState();
 }
 
-class _NoteScreenState extends ConsumerState<NoteScreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController bodyController = TextEditingController();
+class _EditNoteScreenState extends ConsumerState<EditNoteScreen> {
+  late TextEditingController titleEditingController = TextEditingController();
+  late TextEditingController bodyEdititngController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
-    titleController.dispose();
-    bodyController.dispose();
+    titleEditingController.dispose();
+    bodyEdititngController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    onsave() {
-      final titlecontrol = titleController.text;
-      final bodycontrol = bodyController.text;
-      if (titlecontrol.isEmpty) return;
-      ref.read(noteNotifier.notifier).addnote(bodycontrol, titlecontrol);
+    void onsave() {
+      final title = titleEditingController.text;
+      final body = bodyEdititngController.text;
+      if (title.isEmpty || body.isEmpty) return;
+      ref.read(noteNotifier.notifier).editNoteIte(widget.note.id, body, title);
       Navigator.of(context).pop(true);
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('New Note'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(onPressed: onsave, icon: const Icon(Icons.done)),
-          ),
-        ],
+        title: const Text('Edit Your Note'),
+        actions: [IconButton(onPressed: onsave, icon: const Icon(Icons.done))],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -57,7 +54,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen> {
             child: Column(
               children: [
                 TextField(
-                  controller: titleController,
+                  controller: titleEditingController,
                   autocorrect: true,
                   maxLines: null,
                   autofocus: true,
@@ -76,12 +73,12 @@ class _NoteScreenState extends ConsumerState<NoteScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Clipboard.setData(
-                          ClipboardData(text: bodyController.text),
+                          ClipboardData(text: bodyEdititngController.text),
                         );
                       },
                       child: TextField(
                         autofocus: true,
-                        controller: bodyController,
+                        controller: bodyEdititngController,
                         keyboardType: TextInputType.text,
                         maxLines: null,
                         expands: true,
@@ -102,21 +99,4 @@ class _NoteScreenState extends ConsumerState<NoteScreen> {
       ),
     );
   }
-}
-
-class LinedPaperPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFFDDDDDD)
-      ..strokeWidth = 1;
-
-    const lineHeight = 32.0;
-    for (double y = 0; y < size.height; y += lineHeight) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
