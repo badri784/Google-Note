@@ -25,6 +25,7 @@ class Todos extends StateNotifier<List<Model>> {
     final List<Model> model = data
         .map(
           (item) => Model(
+            id: item['id'] as String,
             body: item['body'] as String,
             isdone: item['isdone'] == 'false',
           ),
@@ -48,11 +49,18 @@ class Todos extends StateNotifier<List<Model>> {
 
   removetodo(String id) async {
     final db = await opendatabase();
-    db.delete('user_todos', where: 'id==?', whereArgs: [id]);
+    db.delete('user_todos', where: 'id=?', whereArgs: [id]);
     state = state.where((item) => item.id != id).toList();
   }
 
-  void editTodo(String id, String body, bool done) {
+  Future<void> editTodo(String id, String body, bool done) async {
+    final db = await opendatabase();
+    db.update(
+      'user_todos',
+      {'body': body, 'isdone': done},
+      where: 'id=?',
+      whereArgs: [id],
+    );
     state = state.map((item) {
       if (item.id == id) {
         return Model(id: id, body: body, isdone: done);

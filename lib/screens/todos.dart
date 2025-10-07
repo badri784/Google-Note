@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app/model/model.dart';
 import 'package:note_app/provider/todos_provider.dart';
-import 'package:note_app/screens/edit_screen.dart';
+import 'package:note_app/screens/edit_Folder/edit_screen.dart';
 
 class ToDos extends ConsumerStatefulWidget {
   const ToDos({super.key});

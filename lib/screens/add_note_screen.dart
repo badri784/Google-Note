@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:note_app/provider/note_provider.dart';
 
 class NoteScreen extends ConsumerStatefulWidget {
   const NoteScreen({super.key});
-
   @override
   ConsumerState<NoteScreen> createState() => _NoteScreenState();
 }
 
 class _NoteScreenState extends ConsumerState<NoteScreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController bodyController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController bodyController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
@@ -25,8 +23,8 @@ class _NoteScreenState extends ConsumerState<NoteScreen> {
     onsave() {
       final titlecontrol = titleController.text;
       final bodycontrol = bodyController.text;
-      if (titlecontrol.isEmpty) return;
-      ref.read(noteNotifier.notifier).addnote(bodycontrol, titlecontrol);
+      if (titlecontrol.isEmpty || bodycontrol.isEmpty) return;
+      ref.read(noteNotifier.notifier).addnote(titlecontrol, bodycontrol);
       Navigator.of(context).pop(true);
     }
 
@@ -73,25 +71,18 @@ class _NoteScreenState extends ConsumerState<NoteScreen> {
                 Expanded(
                   child: CustomPaint(
                     painter: LinedPaperPainter(),
-                    child: GestureDetector(
-                      onTap: () {
-                        Clipboard.setData(
-                          ClipboardData(text: bodyController.text),
-                        );
-                      },
-                      child: TextField(
-                        autofocus: true,
-                        controller: bodyController,
-                        keyboardType: TextInputType.text,
-                        maxLines: null,
-                        expands: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Start typing your note...',
-                          hintStyle: TextStyle(color: Colors.grey),
-                        ),
-                        style: const TextStyle(fontSize: 18, height: 2),
+                    child: TextField(
+                      autofocus: true,
+                      controller: bodyController,
+                      keyboardType: TextInputType.text,
+                      maxLines: null,
+                      expands: true,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Start typing your note...',
+                        hintStyle: TextStyle(color: Colors.grey),
                       ),
+                      style: const TextStyle(fontSize: 18, height: 2),
                     ),
                   ),
                 ),
