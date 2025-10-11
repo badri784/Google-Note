@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:note_app/model/model.dart';
 import 'package:note_app/provider/todos_provider.dart';
 
-class EditScreen extends ConsumerStatefulWidget {
-  const EditScreen({super.key, required this.model});
+class EditTodosScreen extends ConsumerStatefulWidget {
+  const EditTodosScreen({super.key, required this.model});
 
   final Model model;
   @override
-  ConsumerState<EditScreen> createState() => _EditScreenState();
+  ConsumerState<EditTodosScreen> createState() => _EditScreenState();
 }
 
-class _EditScreenState extends ConsumerState<EditScreen> {
-  late TextEditingController textEditingController = TextEditingController();
+class _EditScreenState extends ConsumerState<EditTodosScreen> {
+  late TextEditingController textEditingController;
   @override
   void dispose() {
     super.dispose();
@@ -25,6 +25,12 @@ class _EditScreenState extends ConsumerState<EditScreen> {
     if (text.isEmpty) return;
     ref.read(todosnotifier.notifier).editTodo(widget.model.id, text, isdone);
     Navigator.of(context).pop();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    textEditingController = TextEditingController(text: widget.model.body);
   }
 
   @override

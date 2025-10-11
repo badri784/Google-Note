@@ -132,7 +132,7 @@ class _ToDosState extends ConsumerState<ToDos> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) =>
-                                        EditScreen(model: item[index]),
+                                        EditTodosScreen(model: item[index]),
                                   ),
                                 );
                               },

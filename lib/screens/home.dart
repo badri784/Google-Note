@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:note_app/provider/navbar_provider.dart';
 import 'package:note_app/screens/notes.dart';
-import 'package:note_app/screens/todos.dart';
+import 'package:note_app/screens/add_screen/todos.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});

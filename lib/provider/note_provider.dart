@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:note_app/model/note_model.dart';
 import 'package:path_provider/path_provider.dart' as syspath;
@@ -24,7 +22,7 @@ class NoteProvider extends StateNotifier<List<NoteModel>> {
   loaddatabase() async {
     final sql.Database db = await opendatabase();
     final List<Map<String, Object?>> data = await db.query('user_note');
-    log(data.toString());
+    // log(data.toString());
     final List<NoteModel> model = data
         .map(
           (item) => NoteModel(
@@ -46,9 +44,9 @@ class NoteProvider extends StateNotifier<List<NoteModel>> {
       'title': newItem.title,
       'body': newItem.body,
     });
-    log(
-      'state in add note provider title : ${newItem.title.toString()}/ body:  ${newItem.body.toString()}',
-    );
+    // log(
+    //  'state in add note provider title : ${newItem.title.toString()}/ body:  ${newItem.body.toString()}',
+    //);
     state = [newItem, ...state];
   }
 
@@ -72,7 +70,7 @@ class NoteProvider extends StateNotifier<List<NoteModel>> {
     final sql.Database db = await opendatabase();
     await db.delete('user_note', where: 'id=?', whereArgs: [id]);
     state = state.where((item) => item.id != id).toList();
-    log('note form database ${state.toString()}');
+    //log('note form database ${state.toString()}');
   }
 }
 
