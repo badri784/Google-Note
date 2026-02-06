@@ -62,12 +62,6 @@ class _NotesState extends State<Notes> with TickerProviderStateMixin {
             ),
             actions: [
               IconButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: CustomSearcDelegate();)
-                },
-                icon: const Icon(Icons.search, size: 30),
-              ),
-              IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.more_vert, size: 27),
               ),
@@ -104,22 +98,4 @@ class _NotesState extends State<Notes> with TickerProviderStateMixin {
       ),
     );
   }
-}
-
-
-class CustomSearcDelegate extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context)
-  {
-
-  } 
-  @override
-  Widget buildLeading (BuildContext context){}
-  @override
-  Widget bulidresults (BuildContext context){}
-  @override
-  Widget buildSuggestions (BuildContext context){}
-  @override
-  Widget buildLeading (BuildContext context){}
-
 }
