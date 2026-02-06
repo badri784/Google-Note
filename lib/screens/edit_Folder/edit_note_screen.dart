@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:note_app/model/note_model.dart';
-import 'package:note_app/provider/note_provider.dart';
-import 'package:note_app/screens/add_screen/add_note_screen.dart';
+import '../../model/note_model.dart';
+import '../../provider/note_provider.dart';
+import '../add_screen/add_note_screen.dart';
 
 class EditNoteScreen extends ConsumerStatefulWidget {
   const EditNoteScreen({required this.note, super.key});

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:note_app/provider/note_provider.dart';
-import 'package:note_app/screens/edit_Folder/edit_note_screen.dart';
-import 'package:note_app/screens/open_note_screen.dart';
+
+import '../provider/note_provider.dart';
+import '../screens/edit_Folder/edit_note_screen.dart';
+import '../screens/open_note_screen.dart';
 
 class GraidViewWidget extends ConsumerStatefulWidget {
   const GraidViewWidget({super.key});

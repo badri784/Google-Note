@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:note_app/model/model.dart';
-import 'package:note_app/provider/todos_provider.dart';
-import 'package:note_app/screens/edit_Folder/edit_screen.dart';
+import '../../model/model.dart';
+import '../../provider/todos_provider.dart';
+import '../edit_Folder/edit_screen.dart';
 
 class ToDos extends ConsumerStatefulWidget {
   const ToDos({super.key});
@@ -186,7 +186,7 @@ class _ToDosState extends ConsumerState<ToDos> {
     );
   }
 
-  modelsheet() async {
+  Future<PersistentBottomSheetController> modelsheet() async {
     return showBottomSheet(
       showDragHandle: true,
       backgroundColor: Colors.white54,

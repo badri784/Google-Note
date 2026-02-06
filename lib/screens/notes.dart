@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/screens/add_screen/add_note_screen.dart';
-import 'package:note_app/widget/graid_view.dart';
+import 'add_screen/add_note_screen.dart';
+import '../widget/graid_view.dart';
 
 class Notes extends StatefulWidget {
   const Notes({super.key});

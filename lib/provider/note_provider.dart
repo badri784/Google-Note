@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:note_app/model/note_model.dart';
+import '../model/note_model.dart';
 import 'package:path_provider/path_provider.dart' as syspath;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;

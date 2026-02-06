@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:note_app/model/note_model.dart';
-import 'package:note_app/screens/edit_Folder/edit_note_screen.dart';
+import '../model/note_model.dart';
+import 'edit_Folder/edit_note_screen.dart';
 
 class OpenNoteScreen extends ConsumerWidget {
   const OpenNoteScreen({required this.note, super.key});

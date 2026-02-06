@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:note_app/model/model.dart';
-import 'package:path_provider/path_provider.dart' as syspath;
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspath;
 import 'package:sqflite/sqflite.dart' as sql;
+
+import '../model/model.dart';
 
 Future<sql.Database> opendatabase() async {
   final dbpath = await sql.getDatabasesPath();
